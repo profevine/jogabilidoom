@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * Importa as abas anuais da planilha pública do Jogabilidade para o museu.
+ * Importa as abas anuais da planilha pública "Os Melhores do Ano do
+ * Jogabilidade 2016-2025", organizada por Renato Mesquita, para o museu.
  *
  * Cada aba tem um layout um pouco diferente: a lista coletiva mudou de coluna
  * ao longo dos anos e nem sempre tem cabeçalho ("TOP 10" só aparece de 2022 em

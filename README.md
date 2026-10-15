@@ -54,7 +54,9 @@ soleira.
 
 ## Importar as listas
 
-As listas vêm da planilha pública do podcast, baixada como `.xlsx`:
+As listas vêm da planilha pública [Os Melhores do Ano do Jogabilidade
+2016-2025](https://docs.google.com/spreadsheets/d/1Pn0UWUDnKS0O_lA4KNvk7nDRbUIqWOibAWX1vVjH1AQ/edit), organizada por Renato Mesquita, baixada como `.xlsx`
+(`…/export?format=xlsx`):
 
 ```bash
 node tools/import-top10.mjs /caminho/para/jogabilidade-top10.xlsx
@@ -306,6 +308,18 @@ gzdoom -iwad /caminho/para/freedoom2.wad -file jogabilidoom.wad -norun
    balanceamento (vida, velocidade e munição) ainda é estimado. Os números estão
    todos em `data/bosses.json`, fáceis de ajustar depois de uma primeira rodada.
 4. **Áudio dos chefes**: cada um ainda vai ganhar falas e sons próprios.
+
+## Créditos
+
+- **Renato Mesquita**, que organizou a planilha [Os Melhores do Ano do
+  Jogabilidade 2016-2025](https://docs.google.com/spreadsheets/d/1Pn0UWUDnKS0O_lA4KNvk7nDRbUIqWOibAWX1vVjH1AQ/edit) com os Top 10 de todos os anos. É dela que
+  saem os salões do museu.
+- **O Jogabilidade** e seus integrantes, que viraram os chefes da torre:
+  **Rafael Quina** (Rafa), **Fernando Mucioli** (Tengu), **André Campos** e
+  **Eduardo Fonseca** (Sushi). Os Top 10 são deles, e os rostos dos chefes vêm do
+  [media kit](https://midiakit.jogabilida.de/) público do podcast.
+- **GZDoom** (<https://zdoom.org>) e **Freedoom** (<https://freedoom.github.io>),
+  o motor e os gráficos e sons base do pacote para Windows.
 
 ## Sobre
 
