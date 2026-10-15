@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jogabilidoom</title>
+<meta name="description" content="Jogabilidoom: um museu-torre para Doom com os Top 10 do Jogabilidade de cada ano. Projeto independente de fãs. Download e instruções para jogar.">
+<meta property="og:title" content="Jogabilidoom">
+<meta property="og:description" content="Um museu-torre para Doom com os Top 10 do Jogabilidade, de 2016 até hoje. Homenagem independente de fãs.">
+<meta property="og:image" content="https://blog.profevine.com.br/jogabilidoom/capturas/andar-11-arena-rafa.jpg">
+<meta property="og:url" content="https://blog.profevine.com.br/jogabilidoom/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23140c0a'/%3E%3Cpath d='M3 3h7l3 3v7H3z' fill='%23c8321e'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #140c0a;
+    --panel: #1f1512;
+    --line: #3a2a24;
+    --text: #eadfd8;
+    --muted: #a8968c;
+    --red: #d6402a;
+    --red-deep: #8a1d10;
+    --gold: #e8b03c;
+    --code-bg: #0c0706;
+    --pixel: 'Press Start 2P', monospace;
+    --mono: 'IBM Plex Mono', ui-monospace, monospace;
+    --sans: 'IBM Plex Sans', system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 17px/1.65 var(--sans);
+  }
+  a { color: var(--gold); }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+
+  header.hero {
+    border-bottom: 4px solid var(--red-deep);
+    background:
+      linear-gradient(180deg, rgba(138,29,16,.35), var(--bg)),
+      repeating-linear-gradient(90deg, #1a100d 0 62px, #22140f 62px 64px),
+      repeating-linear-gradient(0deg, transparent 0 30px, rgba(0,0,0,.35) 30px 32px);
+    padding: 72px 0 56px;
+  }
+  .hero h1 {
+    font: 400 clamp(26px, 7vw, 56px)/1.15 var(--pixel);
+    color: var(--red); margin: 0 0 20px;
+    text-shadow: 4px 4px 0 #000, 0 0 24px rgba(214,64,42,.35);
+    letter-spacing: 1px;
+  }
+  .hero p.lede { font-size: 20px; max-width: 640px; margin: 0 0 28px; }
+  .beta {
+    max-width: 640px; margin: 0 0 24px; padding: 12px 16px;
+    background: rgba(232,176,60,.12); border: 1px solid var(--gold); color: var(--text);
+    font-size: 15px;
+  }
+  .beta strong { color: var(--gold); font: 400 12px var(--pixel); margin-right: 6px; }
+  .tag {
+    display: inline-block; font: 600 12px var(--mono); text-transform: uppercase;
+    letter-spacing: 1px; color: var(--gold); border: 1px solid var(--gold);
+    padding: 3px 8px; margin-bottom: 18px;
+  }
+
+  .download {
+    display: flex; flex-wrap: wrap; gap: 16px 24px; align-items: center;
+    background: var(--panel); border: 1px solid var(--line);
+    border-left: 6px solid var(--red); padding: 20px; max-width: 640px;
+  }
+  .btn {
+    display: inline-block; background: var(--red); color: #fff; text-decoration: none;
+    font: 400 14px var(--pixel); padding: 16px 20px;
+    box-shadow: 4px 4px 0 #000; border: 2px solid #ff6a50;
+  }
+  .btn:hover, .btn:focus-visible { background: #e8553c; }
+  .btn[hidden], .meta[hidden] { display: none; }
+  .btn-alt { background: var(--panel); border-color: var(--red); font-size: 12px; padding: 12px 16px; }
+  .btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #000; }
+  .meta { font: 13px/1.6 var(--mono); color: var(--muted); min-width: 0; }
+  .meta code { word-break: break-all; }
+
+  nav.toc {
+    position: sticky; top: 0; z-index: 2; background: rgba(20,12,10,.94);
+    border-bottom: 1px solid var(--line); backdrop-filter: blur(4px);
+  }
+  nav.toc .wrap { display: flex; gap: 20px; overflow-x: auto; padding-top: 12px; padding-bottom: 12px; }
+  nav.toc a {
+    font: 600 13px var(--mono); text-transform: uppercase; letter-spacing: 1px;
+    color: var(--muted); text-decoration: none; white-space: nowrap;
+  }
+  nav.toc a:hover { color: var(--text); }
+
+  section { padding: 56px 0 8px; }
+  h2 {
+    font: 400 18px/1.4 var(--pixel); color: var(--gold); margin: 0 0 24px;
+    text-shadow: 3px 3px 0 #000;
+  }
+  h3 { font-size: 19px; margin: 32px 0 8px; }
+  p, li { max-width: 70ch; }
+
+  .steps { counter-reset: step; list-style: none; padding: 0; }
+  .steps > li { counter-increment: step; position: relative; padding-left: 52px; margin-bottom: 28px; }
+  .steps > li::before {
+    content: counter(step); position: absolute; left: 0; top: 0;
+    width: 36px; height: 36px; display: grid; place-items: center;
+    font: 400 14px var(--pixel); background: var(--red-deep); color: #fff;
+  }
+  pre {
+    background: var(--code-bg); border: 1px solid var(--line); padding: 14px 16px;
+    overflow-x: auto; font: 14px/1.55 var(--mono); color: #f4d9a4; margin: 10px 0;
+  }
+  code { font-family: var(--mono); font-size: .92em; }
+  p code, li code { background: var(--panel); padding: 1px 5px; }
+
+  .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 0; }
+  .tabs button {
+    font: 600 13px var(--mono); background: var(--panel); color: var(--muted);
+    border: 1px solid var(--line); padding: 8px 14px; cursor: pointer;
+  }
+  .tabs button[aria-selected="true"] { color: #fff; border-color: var(--red); background: var(--red-deep); }
+  .tabpanel[hidden] { display: none; }
+
+  .floors { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 20px; }
+  .floor { background: var(--panel); border: 1px solid var(--line); padding: 16px; }
+  .floor b { display: block; font: 400 12px/1.5 var(--pixel); color: var(--red); margin-bottom: 8px; }
+  .floor p { margin: 0; font-size: 15px; color: var(--muted); }
+
+  .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+  .gallery figure { margin: 0; background: var(--panel); border: 1px solid var(--line); }
+  .gallery img { display: block; width: 100%; height: auto; image-rendering: pixelated; }
+  .gallery figcaption { font-size: 14px; color: var(--muted); padding: 10px 12px; }
+  .gallery figcaption[hidden] { display: none; }
+  .reveal {
+    display: grid; place-content: center; gap: 8px; width: 100%; border: 0; cursor: pointer;
+    background: repeating-linear-gradient(135deg, #1a100d 0 14px, #120a08 14px 28px);
+    color: var(--gold); font: 400 13px var(--pixel); text-shadow: 2px 2px 0 #000;
+  }
+  .reveal small { font: 600 12px var(--mono); color: var(--muted); text-shadow: none; text-transform: uppercase; letter-spacing: 1px; }
+  .reveal:hover, .reveal:focus-visible { background: repeating-linear-gradient(135deg, #2a1610 0 14px, #1a0d0a 14px 28px); }
+  .reveal:hover small { color: var(--text); }
+  .reveal-all {
+    font: 600 13px var(--mono); background: none; color: var(--gold); border: 1px solid var(--gold);
+    padding: 8px 14px; cursor: pointer; margin-bottom: 16px;
+  }
+
+  .release { border-left: 3px solid var(--line); padding: 0 0 8px 20px; margin-bottom: 32px; }
+  .release:first-child { border-left-color: var(--red); }
+  .release h3 { margin: 0 0 4px; font-family: var(--mono); }
+  .release h3 .v { color: var(--red); }
+  .release time { font: 13px var(--mono); color: var(--muted); }
+  .release ul { padding-left: 20px; margin: 12px 0 0; }
+  .release li { margin-bottom: 6px; }
+
+  .notice {
+    background: var(--panel); border: 1px solid var(--gold); padding: 20px 24px;
+  }
+  .notice p:first-child { margin-top: 0; }
+  .notice p:last-child { margin-bottom: 0; }
+
+  footer { border-top: 1px solid var(--line); margin-top: 64px; padding: 28px 0 40px; color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="tag">Projeto de fãs · independente</span>
+    <h1>JOGABILIDOOM</h1>
+    <p class="lede">Um museu-torre para Doom: cada andar guarda o Top 10 de um ano do
+      <a href="https://jogabilida.de/">Jogabilidade</a>, de 2016 até hoje. No alto da escadaria, quatro
+      chefes esperam por você.</p>
+    <p class="beta"><strong>BETA</strong> O Jogabilidoom ainda está em desenvolvimento: esta é uma versão beta.
+      Os chefes, as arenas e o equilíbrio das lutas ainda vão mudar, e cada atualização entra no
+      <a href="#changelog">changelog</a>.</p>
+    <div class="download">
+      <a class="btn" id="dl-win" href="#como-jogar" hidden>WINDOWS: PRONTO PARA JOGAR</a>
+      <div class="meta" id="dl-win-meta" hidden></div>
+      <a class="btn btn-alt" id="dl" href="download/jogabilidoom.wad" download>BAIXAR O WAD</a>
+      <div class="meta" id="dl-meta">Versão mais recente · arquivo PWAD para GZDoom</div>
+    </div>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Seções">
+  <div class="wrap">
+    <a href="#como-jogar">Como jogar</a>
+    <a href="#a-torre">A torre</a>
+    <a href="#capturas">Capturas</a>
+    <a href="#changelog">Changelog</a>
+    <a href="#sobre">Sobre</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <section id="como-jogar">
+    <h2>COMO JOGAR</h2>
+    <p>O Jogabilidoom é um <strong>PWAD</strong>, um mapa que roda por cima do Doom. Você precisa de três coisas: o
+      motor GZDoom, um IWAD (os arquivos-base do jogo) e o nosso WAD.</p>
+
+    <ol class="steps">
+      <li>
+        <h3>Instale o GZDoom</h3>
+        <p>Baixe em <a href="https://zdoom.org/downloads">zdoom.org/downloads</a> (Windows e macOS) ou instale pelo
+          gerenciador de pacotes da sua distribuição Linux. Use uma versão 4.x recente. O <strong>UZDoom</strong>,
+          sucessor do GZDoom, também serve: é só trocar <code>gzdoom</code> por <code>uzdoom</code> nos comandos
+          abaixo.</p>
+      </li>
+      <li>
+        <h3>Arranje um IWAD</h3>
+        <p>O mais simples é o <strong>Freedoom: Phase 2</strong> (<code>freedoom2.wad</code>), gratuito e livre:
+          <a href="https://freedoom.github.io/download.html">freedoom.github.io</a>. Se você tem o Doom II
+          original, o <code>doom2.wad</code> também funciona, e aí os monstros e as texturas são os clássicos.</p>
+      </li>
+      <li>
+        <h3>Baixe o Jogabilidoom</h3>
+        <p>Use o botão lá em cima e coloque o <code>jogabilidoom.wad</code> na mesma pasta do IWAD.</p>
+      </li>
+      <li>
+        <h3>Rode o jogo</h3>
+        <div class="tabs" role="tablist" aria-label="Sistema operacional">
+          <button role="tab" aria-selected="true" aria-controls="os-linux" id="tab-linux">Linux</button>
+          <button role="tab" aria-selected="false" aria-controls="os-windows" id="tab-windows">Windows</button>
+          <button role="tab" aria-selected="false" aria-controls="os-mac" id="tab-mac">macOS</button>
+        </div>
+
+        <div class="tabpanel" role="tabpanel" id="os-linux" aria-labelledby="tab-linux">
+          <p>No terminal, dentro da pasta onde estão os arquivos:</p>
+<pre>gzdoom -iwad freedoom2.wad -file jogabilidoom.wad +map MAP01</pre>
+          <p>Para abrir o jogo digitando só <code>jogabilidoom</code>, acrescente um atalho ao seu
+            <code>~/.bashrc</code> (ou <code>~/.zshrc</code>), ajustando os caminhos:</p>
+<pre>alias jogabilidoom='gzdoom -iwad ~/Jogos/freedoom2.wad -file ~/Jogos/jogabilidoom.wad +map MAP01'</pre>
+          <p>Depois abra um terminal novo (ou rode <code>source ~/.bashrc</code>).</p>
+        </div>
+
+        <div class="tabpanel" role="tabpanel" id="os-windows" aria-labelledby="tab-windows" hidden>
+          <p><strong>O jeito mais fácil:</strong> baixe o pacote para Windows (o botão lá em cima). Ele já traz o
+            GZDoom e o Freedoom, então não precisa instalar nada nem fazer os passos 1 a 3:</p>
+          <ol>
+            <li>Extraia o zip inteiro para uma pasta (não rode de dentro do zip).</li>
+            <li>Dê dois cliques em <code>JOGAR.bat</code>.</li>
+            <li>Se o Windows avisar que protegeu o computador, clique em <em>Mais informações</em> e depois em
+              <em>Executar assim mesmo</em>.</li>
+          </ol>
+          <p>Se você já tem o GZDoom, coloque o <code>freedoom2.wad</code> e o <code>jogabilidoom.wad</code> na
+            pasta dele, crie ali um arquivo <code>jogabilidoom.bat</code> com o conteúdo abaixo e dê dois cliques
+            nele:</p>
+<pre>gzdoom.exe -iwad freedoom2.wad -file jogabilidoom.wad +map MAP01</pre>
+          <p>Atalho rápido: arraste o <code>jogabilidoom.wad</code> para cima do <code>gzdoom.exe</code>. O GZDoom
+            pergunta qual IWAD usar; escolha o Freedoom ou o Doom II e, no jogo, comece um novo jogo.</p>
+        </div>
+
+        <div class="tabpanel" role="tabpanel" id="os-mac" aria-labelledby="tab-mac" hidden>
+          <p>Com o GZDoom em <code>Aplicativos</code>, rode no Terminal, dentro da pasta onde estão os arquivos:</p>
+<pre>open -a GZDoom --args -iwad "$PWD/freedoom2.wad" -file "$PWD/jogabilidoom.wad" +map MAP01</pre>
+        </div>
+      </li>
+    </ol>
+
+    <h3>Controles</h3>
+    <p>São os do GZDoom: anda com <code>W A S D</code>, mira com o mouse, atira com o botão esquerdo e usa
+      (portas e interruptores) com <code>E</code> ou <code>Espaço</code>. Tudo se troca em
+      <em>Opções → Controles</em>. As alcovas dos patamares são teleportes: é só atravessar a soleira.</p>
+  </section>
+
+  <section id="a-torre">
+    <h2>A TORRE</h2>
+    <p>Você nasce no saguão, no pé de uma escadaria que sobe <strong>um andar por ano</strong>. Em cada patamar,
+      uma alcova iluminada leva ao salão do Top 10 daquele ano. O salão se lê da porta para o fundo, das últimas
+      colocações até o pódio do primeiro lugar, com uma placa holográfica sobre cada altar.</p>
+    <div class="floors">
+      <div class="floor"><b>ANDARES 1–10</b><p>Os salões de 2016 a 2025, cada um com o Top 10 coletivo do ano.</p></div>
+      <div class="floor"><b>ANDARES 11–14</b><p>A torre dos chefes, cada um na sua arena temática: o Rafa
+        bolinha rosa entre canos e blocos "?", o Tengu espadachim num salão de Trails, o André majin nas ruínas
+        pop-punk e o Sushi num mecha dentro de uma catedral Souls. O portão de cada arena só abre quando o
+        chefe cai.</p></div>
+      <div class="floor"><b>ANDAR 15</b><p>A câmara do troféu. Chegou aqui, venceu.</p></div>
+    </div>
+    <p>O arsenal de cada luta fica no patamar, antes da arena, e lá dentro há munição, vida e armadura para
+      aguentar a briga. A trilha sonora é uma faixa própria em MIDI, inspirada no encerramento das lives do
+      podcast.</p>
+  </section>
+
+  <section id="capturas">
+    <h2>CAPTURAS</h2>
+    <p>As capturas mostram os salões, os chefes e o final do mapa. Se você não quer spoiler, jogue antes.</p>
+    <button type="button" class="reveal-all">Mostrar todas</button>
+    <div class="gallery">
+      <figure><button type="button" class="reveal" style="aspect-ratio: 1280 / 536" data-src="capturas/andar-10-salao-2025.jpg" data-alt="Salão de 2025, com os altares e o pódio ao fundo" aria-label="Mostrar spoiler 1">⚠ SPOILER<small>clique para ver</small></button><figcaption hidden>Andar 10: o salão de 2025</figcaption></figure>
+      <figure><button type="button" class="reveal" style="aspect-ratio: 1280 / 536" data-src="capturas/andar-11-arena-rafa.jpg" data-alt="O Rafa, bolinha rosa, na arena Nintendo" aria-label="Mostrar spoiler 2">⚠ SPOILER<small>clique para ver</small></button><figcaption hidden>Andar 11: o Rafa na arena Nintendo</figcaption></figure>
+      <figure><button type="button" class="reveal" style="aspect-ratio: 1280 / 536" data-src="capturas/dimensao-dos-coracoes.jpg" data-alt="A dimensão dos corações e arco-íris" aria-label="Mostrar spoiler 3">⚠ SPOILER<small>clique para ver</small></button><figcaption hidden>O golpe especial do Rafa: a dimensão dos corações</figcaption></figure>
+      <figure><button type="button" class="reveal" style="aspect-ratio: 1280 / 536" data-src="capturas/andar-12-arena-tengu.jpg" data-alt="O Tengu, espadachim de uniforme vermelho, no salão de pedra" aria-label="Mostrar spoiler 4">⚠ SPOILER<small>clique para ver</small></button><figcaption hidden>Andar 12: o Tengu no salão de Trails</figcaption></figure>
+      <figure><button type="button" class="reveal" style="aspect-ratio: 1280 / 536" data-src="capturas/andar-13-arena-andre.jpg" data-alt="O André majin nas ruínas com a girafa e os carros" aria-label="Mostrar spoiler 5">⚠ SPOILER<small>clique para ver</small></button><figcaption hidden>Andar 13: o André nas ruínas</figcaption></figure>
+      <figure><button type="button" class="reveal" style="aspect-ratio: 1280 / 536" data-src="capturas/andar-14-arena-sushi.jpg" data-alt="O Sushi pilotando o mecha na catedral" aria-label="Mostrar spoiler 6">⚠ SPOILER<small>clique para ver</small></button><figcaption hidden>Andar 14: o Sushi na catedral</figcaption></figure>
+      <figure><button type="button" class="reveal" style="aspect-ratio: 1280 / 536" data-src="capturas/andar-15-camara-do-trofeu.jpg" data-alt="Câmara do troféu no topo da torre" aria-label="Mostrar spoiler 7">⚠ SPOILER<small>clique para ver</small></button><figcaption hidden>Andar 15: a câmara do troféu</figcaption></figure>
+      <figure><button type="button" class="reveal" style="aspect-ratio: 1040 / 240" data-src="capturas/chefes-em-sprite.png" data-alt="Os quatro chefes: Rafa, Tengu, André e Sushi" aria-label="Mostrar spoiler 8">⚠ SPOILER<small>clique para ver</small></button><figcaption hidden>Os quatro chefes</figcaption></figure>
+    </div>
+    <p style="color:var(--muted);font-size:14px">Capturas com o Freedoom; com o Doom II valem os sprites e as texturas originais.</p>
+  </section>
+
+  <section id="changelog">
+    <h2>CHANGELOG</h2>
+    <div id="releases"><p>Carregando…</p></div>
+  </section>
+
+  <section id="sobre">
+    <h2>SOBRE</h2>
+    <div class="notice">
+      <p><strong>O Jogabilidoom é um trabalho independente.</strong> Somos apenas fãs fazendo uma homenagem ao
+        <a href="https://jogabilida.de/">Jogabilidade</a>. O projeto não tem nenhum vínculo com o podcast, com
+        seus integrantes ou com a equipe deles, e não é endossado por eles.</p>
+      <p>As listas vêm do Top 10 que o Jogabilidade publica todo ano, e os rostos dos chefes, do
+        <a href="https://midiakit.jogabilida.de/">media kit</a> público do podcast. Nomes, marcas e imagens
+        pertencem aos seus donos. Doom é marca da id Software; o Freedoom é um projeto livre à parte.</p>
+      <p>O Jogabilidoom é gratuito e não tem fins comerciais. Se você é do Jogabilidade e quer que algo seja
+        mudado ou retirado, escreva para <a href="mailto:lordehenry@gmail.com">lordehenry@gmail.com</a>.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">Jogabilidoom · uma homenagem de fãs · <a href="https://profevine.com.br/">profevine.com.br</a></div>
+</footer>
+
+<script>
+  // Abas do "Rode o jogo"; abre direto na do sistema de quem visita.
+  const tabs = [...document.querySelectorAll('[role="tab"]')];
+  const select = (tab) => tabs.forEach((t) => {
+    const on = t === tab;
+    t.setAttribute('aria-selected', on);
+    document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+  });
+  tabs.forEach((t) => t.addEventListener('click', () => select(t)));
+  const ua = navigator.userAgent;
+  if (/Windows/.test(ua)) select(document.getElementById('tab-windows'));
+  else if (/Mac OS X/.test(ua) && !/iPhone|iPad/.test(ua)) select(document.getElementById('tab-mac'));
+
+  // Spoilers: a imagem só é baixada quando o visitante clica.
+  const reveal = (btn) => {
+    const img = new Image();
+    img.src = btn.dataset.src;
+    img.alt = btn.dataset.alt;
+    btn.nextElementSibling.hidden = false;
+    btn.replaceWith(img);
+  };
+  document.querySelectorAll('.reveal').forEach((b) => b.addEventListener('click', () => reveal(b)));
+  document.querySelector('.reveal-all').addEventListener('click', (e) => {
+    document.querySelectorAll('.reveal').forEach(reveal);
+    e.currentTarget.remove();
+  });
+
+  const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const fmtDate = (d) => new Date(d + 'T12:00:00').toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  fetch('release.json').then((r) => r.json()).then((rel) => {
+    const dl = document.getElementById('dl');
+    dl.href = rel.file;
+    dl.textContent = `BAIXAR v${rel.version}`;
+    document.getElementById('dl-meta').innerHTML =
+      `jogabilidoom-${esc(rel.version)}.wad · ${Math.round(rel.size / 1024)} KB · ${esc(fmtDate(rel.date))}<br>` +
+      `SHA-256 <code>${esc(rel.sha256)}</code>`;
+    if (rel.windows) {
+      const win = document.getElementById('dl-win');
+      win.href = rel.windows.file;
+      win.setAttribute('download', '');
+      win.hidden = false;
+      const meta = document.getElementById('dl-win-meta');
+      meta.innerHTML = `Windows: GZDoom + Freedoom + Jogabilidoom num zip · ${Math.round(rel.windows.size / 1048576)} MB<br>` +
+        'Extraia e dê dois cliques em <code>JOGAR.bat</code>';
+      meta.hidden = false;
+      dl.textContent = `SÓ O WAD v${rel.version}`;
+    }
+  }).catch(() => {});
+
+  fetch('changelog.json').then((r) => r.json()).then(({ versions }) => {
+    document.getElementById('releases').innerHTML = versions.map((v) => `
+      <article class="release">
+        <h3><span class="v">v${esc(v.version)}</span>${v.title ? ' · ' + esc(v.title) : ''}</h3>
+        <time datetime="${esc(v.date)}">${esc(fmtDate(v.date))}</time>
+        <ul>${v.changes.map((c) => `<li>${esc(c)}</li>`).join('')}</ul>
+      </article>`).join('');
+  }).catch(() => {
+    document.getElementById('releases').innerHTML = '<p>Não deu para carregar o changelog agora.</p>';
+  });
+</script>
+</body>
+</html>

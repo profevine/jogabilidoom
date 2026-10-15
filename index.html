@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogabilidoom - Museu Digital 3D</title>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #000; font-family: 'Courier New', Courier, monospace; }
+        #instructions {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); color: #ff0000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; cursor: pointer; z-index: 10;
+        }
+        #instructions h1 { font-size: 48px; text-shadow: 4px 4px #550000; }
+        #instructions p { font-size: 24px; color: #fff; }
+        #crosshair {
+            position: absolute; top: 50%; left: 50%; width: 20px; height: 20px;
+            border: 2px solid rgba(255,255,255,0.5); border-radius: 50%;
+            transform: translate(-50%, -50%); pointer-events: none; z-index: 5;
+        }
+        #hud {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 80px;
+            background: #222; border-top: 4px solid #555;
+            display: flex; justify-content: space-around; align-items: center;
+            color: #ff0000; font-weight: bold; font-size: 20px; z-index: 6;
+            text-shadow: 2px 2px #000;
+        }
+        .hud-item { text-align: center; }
+        .hud-label { color: #888; font-size: 12px; margin-bottom: 5px; }
+        #hand {
+            position: absolute; bottom: 80px; left: 50%; width: 300px; height: 300px;
+            transform: translateX(-50%); pointer-events: none; z-index: 4;
+            transition: bottom 0.1s;
+        }
+        canvas { display: block; image-rendering: pixelated; }
+    </style>
+</head>
+<body>
+    <div id="instructions">
+        <h1>JOGABILIDOOM</h1>
+        <p>CLIQUE PARA ENTRAR NO MUSEU</p>
+        <p>(WASD para mover | MOUSE para olhar)</p>
+    </div>
+    <div id="crosshair"></div>
+    <div id="hud">
+        <div class="hud-item"><div class="hud-label">ARMOR</div><div>100%</div></div>
+        <div class="hud-item"><div class="hud-label">HEALTH</div><div>100%</div></div>
+        <div class="hud-item"><div class="hud-label">MUSEU</div><div>JOGABILIDADE</div></div>
+        <div class="hud-item"><div class="hud-label">AMMO</div><div>∞</div></div>
+    </div>
+    <img id="hand" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZyBmaWxsPSIjZWRhMTY2Ij48cmVjdCB4PSI0MCIgeT0iNTAiIHdpZHRoPSIyMCIgaGVpZ2h0PSI1MCIvPjxyZWN0IHg9IjM1IiB5PSI2MCIgd2lkdGg9IjE1IiBoZWlnaHQ9IjQwIi8+PHJlY3QgeD0iNTAiIHk9IjYwIiB3aWR0aD0iMTUiIGhlaWdodD0iNDAiLz48L2c+PGcgZmlsbD0iIzMzMyI+PHJlY3QgeD0iNDUiIHk9IjMwIiB3aWR0aD0iMTAiIGhlaWdodD0iMjUiLz48Y2lyY2xlIGN4PSI1MCIgY3k9IjMwIiByPSIxMCIvPjwvZz48L3N2Zz4=" />
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
+
+        // --- DADOS DO MUSEU ---
+        // Para adicionar novas salas, basta adicionar novos objetos a esta lista.
+        // Cada objeto cria automaticamente uma nova sala no corredor.
+        const museumData = [
+            {
+                id: "2023",
+                title: "Melhores de 2023",
+                choices: [
+                    { name: "André", game: "Alan Wake 2", color: 0xff0000 },
+                    { name: "Sushi", game: "Baldur's Gate 3", color: 0x00ff00 },
+                    { name: "Tengu", game: "Hi-Fi RUSH", color: 0x0000ff },
+                    { name: "Rafa", game: "Zelda: TotK", color: 0xffff00 }
+                ]
+            },
+            {
+                id: "2022",
+                title: "Melhores de 2022",
+                choices: [
+                    { name: "André", game: "Elden Ring", color: 0xff0000 },
+                    { name: "Sushi", game: "Signalis", color: 0x00ff00 },
+                    { name: "Tengu", game: "Vampire Survivors", color: 0x0000ff },
+                    { name: "Rafa", game: "God of War Ragnarok", color: 0xffff00 }
+                ]
+            },
+            {
+                id: "goty_all_time",
+                title: "GOTY de Todos os Tempos",
+                choices: [
+                    { name: "André", game: "Outer Wilds", color: 0xff0000 },
+                    { name: "Sushi", game: "Dark Souls", color: 0x00ff00 },
+                    { name: "Tengu", game: "Soma", color: 0x0000ff },
+                    { name: "Rafa", game: "Bloodborne", color: 0xffff00 }
+                ]
+            }
+        ];
+
+        // --- CONFIGURAÇÃO THREE.JS ---
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x050505);
+        scene.fog = new THREE.Fog(0x050505, 0, 50);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.y = 1.7; // Altura dos olhos
+
+        const renderer = new THREE.WebGLRenderer({ antialias: false });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio * 0.5); // Baixa resolução para o feeling retro
+        document.body.appendChild(renderer.domElement);
+
+        const controls = new PointerLockControls(camera, document.body);
+        const instructions = document.getElementById('instructions');
+
+        instructions.addEventListener('click', () => {
+            controls.lock();
+        });
+
+        controls.addEventListener('lock', () => {
+            instructions.style.display = 'none';
+        });
+
+        controls.addEventListener('unlock', () => {
+            instructions.style.display = 'flex';
+        });
+
+        // --- ILUMINAÇÃO ---
+        const ambientLight = new THREE.AmbientLight(0x404040, 2);
+        scene.add(ambientLight);
+
+        // --- GERAÇÃO DE TEXTURAS "DOOM" ---
+        function createPixelTexture(color1, color2) {
+            const size = 64;
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            ctx.fillStyle = color1;
+            ctx.fillRect(0, 0, size, size);
+            
+            ctx.fillStyle = color2;
+            for(let i=0; i<size; i+=8) {
+                for(let j=0; j<size; j+=8) {
+                    if((i+j) % 16 === 0) {
+                        ctx.fillRect(i, j, 4, 4);
+                    }
+                }
+            }
+            
+            const texture = new THREE.CanvasTexture(canvas);
+            texture.magFilter = THREE.NearestFilter;
+            texture.minFilter = THREE.NearestFilter;
+            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+            texture.repeat.set(1, 1);
+            return texture;
+        }
+
+        const wallTex = createPixelTexture('#333', '#222');
+        const floorTex = createPixelTexture('#111', '#0a0a0a');
+        const ceilingTex = createPixelTexture('#222', '#1a1a1a');
+
+        // --- CONSTRUÇÃO DO MUSEU ---
+        const ROOM_SIZE = 10;
+        const HALLWAY_WIDTH = 4;
+        const objects = []; // Para colisões
+
+        function createWall(w, h, x, y, z, rotY = 0) {
+            const geo = new THREE.PlaneGeometry(w, h);
+            const mat = new THREE.MeshStandardMaterial({ map: wallTex, side: THREE.DoubleSide });
+            const mesh = new THREE.Mesh(geo, mat);
+            mesh.position.set(x, y, z);
+            mesh.rotation.y = rotY;
+            scene.add(mesh);
+            objects.push(mesh);
+            return mesh;
+        }
+
+        // Chão e Teto do Hub Principal (Corredor)
+        const totalLength = museumData.length * ROOM_SIZE;
+        const hubFloor = new THREE.Mesh(
+            new THREE.PlaneGeometry(HALLWAY_WIDTH, totalLength),
+            new THREE.MeshStandardMaterial({ map: floorTex })
+        );
+        hubFloor.rotation.x = -Math.PI / 2;
+        hubFloor.position.z = -totalLength / 2 + ROOM_SIZE/2;
+        scene.add(hubFloor);
+
+        const hubCeil = new THREE.Mesh(
+            new THREE.PlaneGeometry(HALLWAY_WIDTH, totalLength),
+            new THREE.MeshStandardMaterial({ map: ceilingTex })
+        );
+        hubCeil.rotation.x = Math.PI / 2;
+        hubCeil.position.y = 3.5;
+        hubCeil.position.z = -totalLength / 2 + ROOM_SIZE/2;
+        scene.add(hubCeil);
+
+        // Gerar salas para cada lista
+        museumData.forEach((data, index) => {
+            const zPos = -index * ROOM_SIZE;
+            
+            // Texto da Sala (Placa)
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 512; canvas.height = 128;
+            ctx.fillStyle = '#ff0000';
+            ctx.fillRect(0,0,512,128);
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 40px Courier New';
+            ctx.textAlign = 'center';
+            ctx.fillText(data.title.toUpperCase(), 256, 75);
+            const titleTex = new THREE.CanvasTexture(canvas);
+            const titleMat = new THREE.MeshBasicMaterial({ map: titleTex, transparent: true });
+            const titleMesh = new THREE.Mesh(new THREE.PlaneGeometry(3, 0.75), titleMat);
+            titleMesh.position.set(0, 2.8, zPos);
+            scene.add(titleMesh);
+
+            // Paredes do Corredor (com aberturas para as salas)
+            createWall(ROOM_SIZE, 3.5, -HALLWAY_WIDTH/2, 1.75, zPos, Math.PI/2); // Esquerda
+            createWall(ROOM_SIZE, 3.5, HALLWAY_WIDTH/2, 1.75, zPos, -Math.PI/2); // Direita
+
+            // Sala (Cubo à direita de cada ponto do corredor)
+            const roomX = HALLWAY_WIDTH/2 + ROOM_SIZE/2;
+            
+            // Chão da Sala
+            const rFloor = new THREE.Mesh(new THREE.PlaneGeometry(ROOM_SIZE, ROOM_SIZE), new THREE.MeshStandardMaterial({ map: floorTex }));
+            rFloor.rotation.x = -Math.PI / 2;
+            rFloor.position.set(roomX, 0, zPos);
+            scene.add(rFloor);
+
+            // Teto da Sala
+            const rCeil = new THREE.Mesh(new THREE.PlaneGeometry(ROOM_SIZE, ROOM_SIZE), new THREE.MeshStandardMaterial({ map: ceilingTex }));
+            rCeil.rotation.x = Math.PI / 2;
+            rCeil.position.set(roomX, 3.5, zPos);
+            scene.add(rCeil);
+
+            // Paredes da Sala
+            createWall(ROOM_SIZE, 3.5, roomX, 1.75, zPos - ROOM_SIZE/2, 0); // Fundo
+            createWall(ROOM_SIZE, 3.5, roomX, 1.75, zPos + ROOM_SIZE/2, Math.PI); // Frente
+            createWall(ROOM_SIZE, 3.5, roomX + ROOM_SIZE/2, 1.75, zPos, -Math.PI/2); // Longe
+
+            // Luz da Sala
+            const pointLight = new THREE.PointLight(0xffffff, 10, 10);
+            pointLight.position.set(roomX, 3, zPos);
+            scene.add(pointLight);
+
+            // Expositores dos Apresentadores
+            data.choices.forEach((choice, cIndex) => {
+                const angle = (cIndex / 4) * Math.PI * 2;
+                const dist = 3;
+                const px = roomX + Math.cos(angle) * dist;
+                const pz = zPos + Math.sin(angle) * dist;
+
+                // Sprite/Billboard do Apresentador
+                const pCanvas = document.createElement('canvas');
+                const pCtx = pCanvas.getContext('2d');
+                pCanvas.width = 256; pCanvas.height = 256;
+                pCtx.fillStyle = '#ffffff';
+                pCtx.strokeStyle = '#ff0000';
+                pCtx.lineWidth = 10;
+                pCtx.strokeRect(5, 5, 246, 246);
+                pCtx.font = 'bold 30px Courier New';
+                pCtx.fillStyle = '#000000';
+                pCtx.textAlign = 'center';
+                pCtx.fillText(choice.name, 128, 50);
+                pCtx.font = '24px Courier New';
+                pCtx.fillText(choice.game, 128, 140);
+                
+                const pTex = new THREE.CanvasTexture(pCanvas);
+                pTex.magFilter = THREE.NearestFilter;
+                const pMat = new THREE.SpriteMaterial({ map: pTex });
+                const sprite = new THREE.Sprite(pMat);
+                sprite.position.set(px, 1.5, pz);
+                sprite.scale.set(2, 2, 1);
+                scene.add(sprite);
+
+                // Pedestal
+                const pedGeo = new THREE.BoxGeometry(0.8, 0.5, 0.8);
+                const pedMat = new THREE.MeshStandardMaterial({ color: choice.color });
+                const ped = new THREE.Mesh(pedGeo, pedMat);
+                ped.position.set(px, 0.25, pz);
+                scene.add(ped);
+                objects.push(ped);
+            });
+        });
+
+        // --- MOVIMENTAÇÃO E COLISÃO ---
+        const velocity = new THREE.Vector3();
+        const direction = new THREE.Vector3();
+        const moveKeys = { forward: false, backward: false, left: false, right: false };
+
+        document.addEventListener('keydown', (e) => {
+            switch(e.code) {
+                case 'KeyW': moveKeys.forward = true; break;
+                case 'KeyS': moveKeys.backward = true; break;
+                case 'KeyA': moveKeys.left = true; break;
+                case 'KeyD': moveKeys.right = true; break;
+            }
+        });
+
+        document.addEventListener('keyup', (e) => {
+            switch(e.code) {
+                case 'KeyW': moveKeys.forward = false; break;
+                case 'KeyS': moveKeys.backward = false; break;
+                case 'KeyA': moveKeys.left = false; break;
+                case 'KeyD': moveKeys.right = false; break;
+            }
+        });
+
+        const playerCollider = new THREE.Sphere(new THREE.Vector3(), 0.5);
+        
+        function checkCollision(nextPos) {
+            // Colisão simples: Limitar o jogador ao corredor e às salas
+            // Corredor: x entre -2 e 2, z entre 5 e -(totalLength)
+            const inHallway = Math.abs(nextPos.x) < 2;
+            
+            // Salas: Para cada sala, verificar se o jogador está dentro do cubo da sala
+            let inRoom = false;
+            museumData.forEach((data, index) => {
+                const zPos = -index * ROOM_SIZE;
+                const roomX = HALLWAY_WIDTH/2 + ROOM_SIZE/2;
+                if (nextPos.x > HALLWAY_WIDTH/2 && nextPos.x < roomX + ROOM_SIZE/2 &&
+                    nextPos.z > zPos - ROOM_SIZE/2 && nextPos.z < zPos + ROOM_SIZE/2) {
+                    inRoom = true;
+                }
+            });
+
+            return inHallway || inRoom;
+        }
+
+        let prevTime = performance.now();
+        const hand = document.getElementById('hand');
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const time = performance.now();
+            if (controls.isLocked) {
+                const delta = (time - prevTime) / 1000;
+
+                velocity.x -= velocity.x * 10.0 * delta;
+                velocity.z -= velocity.z * 10.0 * delta;
+
+                direction.z = Number(moveKeys.forward) - Number(moveKeys.backward);
+                direction.x = Number(moveKeys.right) - Number(moveKeys.left);
+                direction.normalize();
+
+                const speed = 50.0;
+                const moving = moveKeys.forward || moveKeys.backward || moveKeys.left || moveKeys.right;
+                if (moveKeys.forward || moveKeys.backward) velocity.z -= direction.z * speed * delta;
+                if (moveKeys.left || moveKeys.right) velocity.x -= direction.x * speed * delta;
+
+                const nextPos = camera.position.clone();
+                
+                // Tenta mover em X
+                const stepX = -velocity.x * delta;
+                const testPosX = nextPos.clone().setX(nextPos.x + stepX);
+                if (checkCollision(testPosX)) {
+                    controls.moveRight(stepX);
+                }
+
+                // Tenta mover em Z
+                const currentPos = camera.position.clone();
+                const forward = new THREE.Vector3();
+                camera.getWorldDirection(forward);
+                forward.y = 0;
+                forward.normalize();
+                
+                const moveZ = forward.clone().multiplyScalar(-velocity.z * delta);
+                const finalTestPos = currentPos.clone().add(moveZ);
+                
+                if (checkCollision(finalTestPos)) {
+                    camera.position.add(moveZ);
+                }
+                
+                camera.position.y = 1.7; 
+
+                // Balanço da mão
+                if (moving) {
+                    const swayX = Math.sin(time * 0.01) * 20;
+                    const swayY = Math.abs(Math.cos(time * 0.01)) * 15;
+                    hand.style.transform = `translateX(calc(-50% + ${swayX}px)) translateY(${swayY}px)`;
+                } else {
+                    hand.style.transform = `translateX(-50%)`;
+                }
+            }
+
+            prevTime = time;
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+{
+  "rooms": [
+    {
+      "year": 2016,
+      "source": "https://docs.google.com/spreadsheets/d/1Pn0UWUDnKS0O_lA4KNvk7nDRbUIqWOibAWX1vVjH1AQ/edit",
+      "games": [
+        "DOOM",
+        "The Witness",
+        "Inside",
+        "Uncharted 4",
+        "Titanfall 2",
+        "Rockband 4",
+        "Pokemon X e Y"
+      ]
+    },
+    {
+      "year": 2017,
+      "source": "https://docs.google.com/spreadsheets/d/1Pn0UWUDnKS0O_lA4KNvk7nDRbUIqWOibAWX1vVjH1AQ/edit",
+      "games": [
+        "Hollow Knight",
+        "Persona 5",
+        "The Legend of Zelda: Breath of the Wild",
+        "Resident Evil VII",
+        "NieR:Automata",
+        "Mario + Rabbids Kingdom Battle",
+        "Metroid: Samus Returns",
+        "What Remains of Edith Finch"
+      ]
+    },
+    {
+      "year": 2018,
+      "source": "https://docs.google.com/spreadsheets/d/1Pn0UWUDnKS0O_lA4KNvk7nDRbUIqWOibAWX1vVjH1AQ/edit",
+      "games": [
+        "God of War",
+        "Return of the Obra Dinn",
+        "Astro Bot: Rescue Mission",
+        "Monster Hunter World",
+        "Red Dead Redemption 2",
+        "The Messenger",
+        "Super Smash Bros Ultimate",
+        "Bloodstained: Curse of the Moon",
+        "Frostpunk",
+        "Celeste"
+      ]
+    },
+    {
+      "year": 2019,
+      "source": "https://docs.google.com/spreadsheets/d/1Pn0UWUDnKS0O_lA4KNvk7nDRbUIqWOibAWX1vVjH1AQ/edit",
+      "games": [
+        "Sekiro: Shadows Die Twice",
+        "Disco Elysium",
+        "Resident Evil 2 Remake",
+        "Outer Wilds",
+        "Devil May Cry 5",
+        "Dragon Quest Builders 2",
+        "Control",
+        "Sayonara Wild Hearts",
+        "Remnant From the Ashes",
+        "A.I. The Somnium Files"
+      ]
+    },
+    {
+      "year": 2020,
+      "source": "https://docs.google.com/spreadsheets/d/1Pn0UWUDnKS0O_lA4KNvk7nDRbUIqWOibAWX1vVjH1AQ/edit",
+      "games": [
+        "Final Fantasy VII Remake",
+        "Hades",
+        "The Last of Us Part II",
+        "Paradise Killer",
+        "A Monster's Expedition",
+        "Astro's Playroom",
+        "Half-Life: Alyx",
+        "Hyrule Warriors: Age of Calamity",
+        "Umurangi Generation",
+        "Mobile Suit Gundam: Extreme Vs. Maxi Boost ON"
+      ]
+    },
+    {
+      "year": 2021,
+      "source": "https://docs.google.com/spreadsheets/d/1Pn0UWUDnKS0O_lA4KNvk7nDRbUIqWOibAWX1vVjH1AQ/edit",
+      "games": [
+        "Unsighted",
+        "Resident Evil Village",
+        "The Life and Suffering of Sir Brante",
+        "Psychonauts 2",
+        "Outer Wilds - Echoes of the Eye",
+        "Monster Hunter Rise",
+        "Final Fantasy XIV: Endwalker",
+        "Before Your Eyes",
+        "It Takes Two",
+        "Nier Replicant 1.22"
+      ]
+    },
+    {
+      "year": 2022,
+      "source": "https://docs.google.com/spreadsheets/d/1Pn0UWUDnKS0O_lA4KNvk7nDRbUIqWOibAWX1vVjH1AQ/edit",
+      "games": [
+        "Immortality",
+        "Elden Ring",
+        "The Case of the Golden Idol",
+        "Pentiment",
+        "Citizen Sleeper",
+        "Chained Echoes",
+        "Xenoblade Chronicles 3",
+        "Vampire Survivors",
+        "Neon White",
+        "Stranger of Paradise: Final Fantasy Origins"
+      ]
+    },
+    {
+      "year": 2023,
+      "source": "https://docs.google.com/spreadsheets/d/1Pn0UWUDnKS0O_lA4KNvk7nDRbUIqWOibAWX1vVjH1AQ/edit",
+      "games": [
+        "Alan Wake II",
+        "The Legend of Zelda: Tears of the Kingdom",
+        "Baldur's Gate III",
+        "MyHouse.wad",
+        "Armored Core VI: Fires of Rubicon",
+        "Resident Evil 4",
+        "Super Mario Bros. Wonder",
+        "Venba",
+        "Remnant 2",
+        "Lies of P"
+      ]
+    },
+    {
+      "year": 2024,
+      "source": "https://docs.google.com/spreadsheets/d/1Pn0UWUDnKS0O_lA4KNvk7nDRbUIqWOibAWX1vVjH1AQ/edit",
+      "games": [
+        "Astro Bot",
+        "Kunitsu Gami: Path of Goddess",
+        "Dragon's Dogma 2",
+        "Nine Sols",
+        "Silent Hill 2",
+        "Animal Well",
+        "Prince of Persia: The Lost Crown",
+        "1000xRESIST",
+        "Lorelei and the Laser Eyes",
+        "Final Fantasy VII Rebirth"
+      ]
+    },
+    {
+      "year": 2025,
+      "source": "https://docs.google.com/spreadsheets/d/1Pn0UWUDnKS0O_lA4KNvk7nDRbUIqWOibAWX1vVjH1AQ/edit",
+      "games": [
+        "Clair Obscur: Expedition 33",
+        "Hollow Knight: Silksong",
+        "Blue Prince",
+        "Silent Hill f",
+        "Baby Steps",
+        "Dragon Quest I&II HD-2D Remake",
+        "Trails in the Sky 1st Chapter",
+        "Elden Ring Nightreign",
+        "Peak",
+        "Monster Hunter Wilds"
+      ]
+    }
+  ]
+}

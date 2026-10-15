@@ -1,0 +1,37 @@
+{
+  "versions": [
+    {
+      "version": "1.1.0-beta",
+      "date": "2026-10-15",
+      "title": "Os chefes ganham corpo (beta)",
+      "changes": [
+        "Versão beta: os chefes e as arenas ainda estão em desenvolvimento e o equilíbrio das lutas ainda vai mudar.",
+        "Os quatro chefes deixaram de ser cabeças flutuantes: agora têm corpo inteiro, desenhado em 8 ângulos, e viram de verdade quando se mexem.",
+        "Rafa: uma bolinha rosa de pés vermelhos que atira fogo e tem um golpe especial. Ele suga o jogador para a dimensão dos corações e arco-íris e depois o cospe de volta com a vida cheia.",
+        "Arena do Rafa com tema Nintendo: tijolos, céu com nuvens, canos, blocos \"?\" e moedas, cogumelos e estrelinhas no lugar dos itens.",
+        "Tengu: espadachim de uniforme vermelho com katana. De perto ele corta; de longe, atira uma onda de corte em meia-lua.",
+        "Arena do Tengu com tema Trails: salão de pedra com estandartes, quartzos das sete cores, luzes orbais e um cristal gigante. Os itens viram sepith e Teara Balm.",
+        "André: majin rosa de colete, capa e anteninha, com magia de fogo rosa. Na derrota, ele derrete.",
+        "Arena do André com tema The Last of Us e Avril Lavigne: ruínas a céu aberto, carros enferrujados, a girafa, vaga-lumes e pichação pop-punk rosa. Os itens viram suplementos, palheta e kit médico.",
+        "Sushi: mecha com lançadores de mísseis, rifle, lâmina de luz e o Sushi na cabine.",
+        "Arena do Sushi com tema Souls e quebra-cabeças: catedral escura com fogueira, névoa, caixas de Sokoban e um quadro de Picross. Os itens viram almas, brasas e frasco de Estus.",
+        "Capturas novas na página, todas escondidas como spoiler.",
+        "Pacote para Windows: GZDoom e Freedoom já incluídos. É só extrair e dar dois cliques em JOGAR.bat."
+      ]
+    },
+    {
+      "version": "1.0.0",
+      "date": "2026-10-15",
+      "title": "A torre abre as portas",
+      "changes": [
+        "Museu-torre com uma escadaria central que sobe um andar por ano, de 2016 a 2025.",
+        "Em cada patamar, uma alcova leva ao salão do Top 10 daquele ano; a alcova do salão devolve o jogador ao mesmo patamar.",
+        "Salões lidos da porta para o fundo, das últimas colocações até o pódio iluminado do primeiro lugar, com placas holográficas mostrando a posição e o nome de cada jogo.",
+        "Torre dos chefes nos andares 11 a 14: as arenas do Rafa, do Tengu, do André e do Sushi, com progressão travada. O portão de cada arena só abre quando o chefe cai.",
+        "Câmara do troféu no andar 15, com os créditos e o interruptor que encerra o mapa.",
+        "Trilha sonora própria em MIDI, inspirada no encerramento das lives do Jogabilidade.",
+        "Conhecido: os salões de 2016 e 2017 ainda estão incompletos, com 7 e 8 colocações."
+      ]
+    }
+  ]
+}

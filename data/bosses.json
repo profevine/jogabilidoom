@@ -1,0 +1,194 @@
+{
+  "meta": {
+    "titulo": "A TORRE DOS CHEFOES",
+    "nota": "Os quatro andares acima do museu. Cada arena tranca o jogador com um integrante do Jogabilidade; o portao so abre quando o chefe cai. O ultimo e o Sushi, chefe final."
+  },
+  "bosses": [
+    {
+      "id": "rafa",
+      "nome": "RAFAEL QUINA",
+      "apelido": "RAFA",
+      "titulo": "O HEROI FOFINHO DA NINTENDO",
+      "estrelas": 0,
+      "final": false,
+      "base": "Cacodemon",
+      "corpo": "kirby",
+      "health": 900,
+      "speed": 10,
+      "arena": {
+        "wall": "JTIJOLO",
+        "floor": "JCHAOBL",
+        "ceiling": "JCEUAZUL",
+        "light": 208,
+        "height": 512,
+        "tema": "nintendo"
+      },
+      "arsenal": [
+        "backpack",
+        "shotgun",
+        "shells",
+        "boxShells",
+        "greenArmor",
+        "medikit",
+        "stimpack"
+      ],
+      "supplies": [
+        "boxShells",
+        "shells",
+        "medikit",
+        "stimpack",
+        "greenArmor",
+        "healthBonus",
+        "healthBonus",
+        "armorBonus",
+        "armorBonus"
+      ],
+      "rosto": {
+        "escala": 1.0,
+        "raio": 60,
+        "cor": "#c0392b",
+        "fonte": "https://midiakit.jogabilida.de/wp-content/uploads/2018/02/rafa-avatar.jpg"
+      },
+      "especial": "sugar"
+    },
+    {
+      "id": "tengu",
+      "nome": "FERNANDO MUCIOLI",
+      "apelido": "TENGU",
+      "titulo": "O JAPONES DOS JOGOS DE LUTA",
+      "estrelas": 0,
+      "final": false,
+      "base": "HellKnight",
+      "health": 1200,
+      "speed": 14,
+      "arena": {
+        "wall": "JPEDRA",
+        "floor": "JPISO",
+        "ceiling": "JTETO",
+        "light": 176,
+        "height": 512,
+        "tema": "trails"
+      },
+      "arsenal": [
+        "ssg",
+        "boxShells",
+        "boxShells",
+        "greenArmor",
+        "medikit",
+        "medikit"
+      ],
+      "supplies": [
+        "boxShells",
+        "boxShells",
+        "medikit",
+        "medikit",
+        "greenArmor",
+        "boxBullets",
+        "chaingun",
+        "healthBonus",
+        "healthBonus"
+      ],
+      "rosto": {
+        "escala": 1.05,
+        "raio": 40,
+        "cor": "#7d3cc0",
+        "fonte": "https://midiakit.jogabilida.de/wp-content/uploads/2021/11/tengu_avatar.jpg"
+      },
+      "corpo": "espadachim"
+    },
+    {
+      "id": "andre",
+      "nome": "ANDRE CAMPOS",
+      "apelido": "ANDRE",
+      "titulo": "O DESIGNER FOFO",
+      "estrelas": 3,
+      "final": false,
+      "base": "Archvile",
+      "health": 1400,
+      "speed": 12,
+      "arena": {
+        "wall": "JRUINA",
+        "floor": "JASFALTO",
+        "ceiling": "F_SKY1",
+        "light": 168,
+        "height": 512,
+        "tema": "tlou"
+      },
+      "arsenal": [
+        "rocket",
+        "boxRockets",
+        "boxRockets",
+        "blueArmor",
+        "medikit",
+        "medikit"
+      ],
+      "supplies": [
+        "boxRockets",
+        "boxRockets",
+        "boxShells",
+        "medikit",
+        "medikit",
+        "soulsphere",
+        "healthBonus",
+        "healthBonus",
+        "armorBonus",
+        "armorBonus"
+      ],
+      "rosto": {
+        "escala": 1.1,
+        "raio": 48,
+        "cor": "#2e9e5b",
+        "fonte": "https://midiakit.jogabilida.de/wp-content/uploads/2021/11/andre-avatar.jpg"
+      },
+      "corpo": "majin"
+    },
+    {
+      "id": "sushi",
+      "nome": "EDUARDO FONSECA",
+      "apelido": "SUSHI",
+      "titulo": "O GAMER 5 ESTRELAS",
+      "estrelas": 5,
+      "final": true,
+      "base": "Cyberdemon",
+      "health": 4000,
+      "speed": 16,
+      "arena": {
+        "wall": "JGOTICO",
+        "floor": "JLAJE",
+        "ceiling": "JABOBADA",
+        "light": 176,
+        "height": 640,
+        "tema": "souls"
+      },
+      "arsenal": [
+        "plasma",
+        "bfg",
+        "cellPack",
+        "cellPack",
+        "megasphere",
+        "medikit"
+      ],
+      "supplies": [
+        "cellPack",
+        "cellPack",
+        "boxRockets",
+        "boxRockets",
+        "medikit",
+        "medikit",
+        "soulsphere",
+        "blueArmor",
+        "healthBonus",
+        "healthBonus",
+        "armorBonus",
+        "armorBonus"
+      ],
+      "rosto": {
+        "escala": 1.4,
+        "raio": 64,
+        "cor": "#d4af37",
+        "fonte": "https://midiakit.jogabilida.de/wp-content/uploads/2021/11/sushi_avatar.jpg"
+      },
+      "corpo": "mecha"
+    }
+  ]
+}

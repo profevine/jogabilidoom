@@ -1,0 +1,10 @@
+backups/
+data/music.*
+!data/music.mid
+.music-tmp/
+.site-build/
+jogabilidoom-modelos.pk3
+.cache/
+.site-build-win/
+MEMORIA-DA-SESSAO.md
+jogabilidoom.wad
