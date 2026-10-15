@@ -12,9 +12,13 @@ com progressão travada, e no topo a câmara do troféu, onde o mapa termina.
 
 ## Como jogar
 
+O passo a passo completo, com instalação no Windows, no Linux e no macOS e
+solução de problemas comuns, está em **[INSTALAR.md](INSTALAR.md)**. O resumo:
+
 ### Windows: pacote pronto
 
-Baixe o pacote para Windows na [página do jogo](https://blog.profevine.com.br/jogabilidoom/).
+Baixe o pacote para Windows na [página do jogo](https://blog.profevine.com.br/jogabilidoom/)
+ou na [página de versões](https://github.com/profevine/jogabilidoom/releases).
 Ele já traz o GZDoom e o Freedoom, então não precisa instalar nada:
 
 1. Extraia o zip inteiro para uma pasta (não rode de dentro do zip).
