@@ -308,6 +308,8 @@ gzdoom -iwad /caminho/para/freedoom2.wad -file jogabilidoom.wad -norun
    balanceamento (vida, velocidade e munição) ainda é estimado. Os números estão
    todos em `data/bosses.json`, fáceis de ajustar depois de uma primeira rodada.
 4. **Áudio dos chefes**: cada um ainda vai ganhar falas e sons próprios.
+5. **Créditos dentro do jogo**: a câmara do troféu ainda vai ganhar a placa de
+   crédito do Renato Mesquita, organizador da planilha das listas.
 
 ## Créditos
 
